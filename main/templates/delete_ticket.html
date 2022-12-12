@@ -1,0 +1,29 @@
+{% extends 'header.html'%}
+
+{% block title %}
+Delete Ticket | {{object.name}}
+{% endblock %}
+
+{% block content %}
+<h1>Delete Ticket</h1>
+<br>
+<br>
+{% if user.is_authenticated %}
+<h2>Delete Ticket : {{object.name}} {{object.author.pk}} </h2>
+{% if object.author.pk == user.pk %}
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+            <b>Are you sure you Want to Delete</b><br>
+            <button class="btn btn-secondary">Delete Ticket</button>
+        </form>
+    </div>
+{% else %}
+    <p> You Are not the author</p>
+{% endif %}
+{% else %}
+<div>
+    <p>You need to be signed in or registered for this.</p>
+</div>
+{% endif %}
+{% endblock %}

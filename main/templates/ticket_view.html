@@ -1,0 +1,22 @@
+{% extends 'header.html'%}
+
+{% block title %}
+{{object.name}}
+{% endblock %}
+
+{% block content %}
+<h1>{{object.name}}</h1>
+<small>
+    <p>{{object.pk}}</p>
+    {% if user.is_authenticated %}
+        <a href="{% url 'main:edit_ticket' object.pk %}">Edit</a>
+        <a href="{% url 'main:delete_ticket' object.pk %}">Delete</a>
+    {% endif %}
+</small>
+
+<br>
+<hr>
+{{object.description|safe}}
+<hr>
+<a href="{% url 'main:homepage' %}" class="btn btn-secondary">Back</a>
+{% endblock %}
