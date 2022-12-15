@@ -15,7 +15,11 @@ Create New Ticket
     </form>
 </div>
 <script>
-    document.getElementById("username").value = "{{ user.id }}" ;
+    $('#id_author').val("{{ user.pk }}")
+    $('#id_author').parents('p').first().hide()
+    $('#id_is_updated_by_admin').parents('p').first().hide()
+    $('#id_is_deleted').parents('p').first().hide()
+    $('#id_is_updated').parents('p').first().hide()
 </script>
 {%else%}
 <div>

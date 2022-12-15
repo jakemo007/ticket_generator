@@ -9,8 +9,8 @@ Delete Ticket | {{object.name}}
 <br>
 <br>
 {% if user.is_authenticated %}
-<h2>Delete Ticket : {{object.name}} {{object.author.pk}} </h2>
-{% if object.author.pk == user.pk %}
+<h2>Delete Ticket : {{object.name}} </h2>
+{% if object.author.pk == user.pk or user.is_superuser %}
     <div class="form-group">
         <form method="POST">
             {% csrf_token %}

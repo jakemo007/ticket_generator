@@ -4,9 +4,9 @@ Update Ticket | {{ticket.name}}
 {% endblock %}
 {% block content %}
 <h1>Update Post</h1>
-{% if user.is_authenticated %}
+{% if user.is_authenticated or user.is_superuser %}
     <!-- <span>{{user.pk}} or  {{object.author.pk}}</span> -->
-    {% if user.pk == object.author.pk %}
+    {% if user.pk == object.author.pk or user.is_superuser %}
     <div class="form-group">
         <form method="POST">
             {% csrf_token %}

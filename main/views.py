@@ -6,6 +6,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Tickets
 from django.urls import reverse_lazy
+from django.db.models import F, Value
+
 
 # def home(request):
 #     return render(request=request, template_name="header.html")
@@ -72,11 +74,42 @@ class EditTicketView(UpdateView):
     form_class = TicketEditForm
     # fields = ['title','body']
     template_name = 'update_ticket.html'
+    def form_valid(self, form):
+        # form.instance.owner = self.request.user
+        # ry :
+		# 	print(form.instance)t
+        try :
+            if self.request.user.is_superuser :
+                # print(form.instance.is_deleted)
+                form.instance.is_updated = True 
+                form.instance.is_updated_by_admin = True
+            else : 
+                form.instance.is_updated = False 
+                form.instance.is_updated_by_admin = True
+        except Exception as e:
+            print('Exception OCcured', e)
+        return super().form_valid(form)
 
 class DeleteTicketView(DeleteView):
     model = Tickets
     template_name = 'delete_ticket.html'
     success_url = reverse_lazy('main:homepage')
+	
+    # def form_valid(self, form) :
+    #     # print(form.instance.author_id)
+    #     if self.request.user.is_superuser and not form.instance.is_deleted :
+    #         print('Inside delete super user')
+    #         form.instance.is_deleted = True 
+    #         form.instance.is_updated_by_admin = True
+    #         form.save()
+    #     elif form.instance.is_deleted :
+    #         return super().form_valid(form)
+    #     else :
+    #         return  super().form_valid(form)
+
+
+		# model  = Tickets.objects.all()
+
 
 class NewTicket(CreateView):
     model = Tickets

@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+  <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -46,13 +46,20 @@
   <br>
   <div class="container">
     {% block content %}
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated or user.is_superuser %}
     <ul>
       <!-- Iterate over object_list -->
       {% for object in object_list %}
       <!-- Display Objects -->
       <li>{{ object.name }}</li>
       <li>{{ object.description }}</li>
+      {% if object.is_updated_by_admin  and object.is_updated %} 
+      <li> It is updated by Admin</li>
+      {% endif %}
+      {% if object.is_updated_by_admin  and object.is_deleted %} 
+      <li> It is Deleted by Admin, You Should Also Delete It</li>
+      {% endif %}
+      
       <li>
         <button class="button">
           <a href="{% url 'main:ticket_details' object.pk %}">VIEW</a>
@@ -79,9 +86,9 @@
   </div>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>
